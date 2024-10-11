@@ -3,9 +3,8 @@ const typeDefs = `
     _id: ID
     username: String
     email: String
-    # There is now a field to store the user's password
-    password: String
-    books: [String]
+    bookCount: Number
+    savedBooks: [Book]
   }
 
   type Book {
@@ -20,25 +19,27 @@ const typeDefs = `
 
   # Set up an Auth type to handle returning data from a user creating or user login
   type Auth {
-    token: ID!
+    token: ID
     user: User
   }
 
   type Query {
-    users: [User]!
-    user(userId: ID!): User
+    me: User
+    users: [User]
+    user(id: ID): User
     books: [Book]
-    book(id: ID!): Book
+    book(id: ID): Book
   }
 
   type Mutation {
     # Set up mutations to handle creating a user or logging into a user and return Auth type
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    saveBook(author: String!, description: String, title: String, bookId: String!, image: String, link: String): User
 
     addBook(userId: ID!, book: String!): User
     removeUser(userId: ID!): User
-    removeBook(userId: ID!, book: String!): Book
+    removeBook(bookId: String): User
   }
 `;
 
